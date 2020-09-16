@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ChessBoard.qml</file>
+        <file>FieldSquare.qml</file>
+        <file>BoardLabel.qml</file>
+        <file>ChessPiece.qml</file>
+        <file>Pieces/bb.svg</file>
+        <file>Pieces/bw.svg</file>
+        <file>Pieces/nb.svg</file>
+        <file>Pieces/nw.svg</file>
+        <file>Pieces/kb.svg</file>
+        <file>Pieces/kw.svg</file>
+        <file>Pieces/qb.svg</file>
+        <file>Pieces/qw.svg</file>
+        <file>Pieces/pb.svg</file>
+        <file>Pieces/pw.svg</file>
+        <file>Pieces/rb.svg</file>
+        <file>Pieces/rw.svg</file>
+        <file>low_contrast_linen.png</file>
+        <file>wood.png</file>
+        <file>PlayerPanel.qml</file>
+        <file>digital7mi.ttf</file>
+        <file>LogView.qml</file>
+        <file>metal.png</file>
+        <file>LcdButton.qml</file>
+        <file>Screen1Menu.qml</file>
+        <file>Screen2Menu.qml</file>
+        <file>Screen3Menu.qml</file>
+        <file>register.ttf</file>
+    </qresource>
+</RCC>
