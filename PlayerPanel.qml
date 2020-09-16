@@ -8,9 +8,9 @@ Rectangle {
     color: "#888"
     radius: 0
     Layout.minimumHeight: 40 + prison.spacing * 2
-//    Layout.margins: 1
     implicitHeight: prison.implicitHeight
     height: implicitHeight
+
     Row {
         anchors.left: parent.left
         anchors.right: parent.right

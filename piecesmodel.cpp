@@ -1,27 +1,10 @@
 #include "piecesmodel.h"
 #include "boardmodel.h"
-#include <QDebug>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QQmlFile>
-
-template <>
-QByteArray printableEnum(const Piece::PieceType &enumType)
-{
-    int eid = Piece::staticMetaObject.indexOfEnumerator("PieceType");
-    QMetaEnum e = Piece::staticMetaObject.enumerator(eid);
-    return QByteArray(e.valueToKey(enumType));
-}
-
-//template <>
-//QByteArray printableEnum(const Piece::PieceType &enumType)
-//{
-//    int eid = Piece::staticMetaObject.indexOfEnumerator("PieceType");
-//    QMetaEnum e = Piece::staticMetaObject.enumerator(eid);
-//    return QByteArray(e.valueToKey(enumType));
-//}
 
 PiecesModel::PiecesModel(QObject *parent) :
     QAbstractListModel(parent),
@@ -30,14 +13,13 @@ PiecesModel::PiecesModel(QObject *parent) :
     clear();
 }
 
-int PiecesModel::rowCount(const QModelIndex &parent) const
+int PiecesModel::rowCount(const QModelIndex &) const
 {
     return m_pieces.size();
 }
 
 QVariant PiecesModel::data(const QModelIndex &index, int role) const
 {
-//    qDebug() << "data query" << index<< role;
     int i = index.row();
 
     if (i >= m_pieces.size())
@@ -166,7 +148,6 @@ QJsonArray PiecesModel::history() const
 
 void PiecesModel::appendHistoryState(int sourceIndex, int destinationIndex, int capturedIndex, qint64 timestamp, Piece::PieceType type)
 {
-    qDebug() << "Appending state" << sourceIndex << destinationIndex << indexToPos(sourceIndex) << indexToPos(destinationIndex) << type;
     QJsonObject m;
     m["source"] = QString(indexToPos(sourceIndex));
     m["sign"] = QString(QChar((char)type));
@@ -193,7 +174,6 @@ bool PiecesModel::addPiece(const QByteArray &p)
 
 bool PiecesModel::addPiece(int index, Piece::PieceType type, Piece::Color color, bool inGame)
 {
-//    qDebug() << "Adding piece at idx" << index << printableEnum(type) << printableEnum(color) << (status == Piece::InGame);
     if (contains(index) && inGame) {
         qWarning() << "piece at index" << index << "already exists!";
         return false;
@@ -221,7 +201,6 @@ void PiecesModel::makeMove(int sourceIndex, int destinationIndex, qint64 timesta
     Piece *pDst = pieceAtSquare(destinationIndex);
     int dstIndex = -1;
     if (pDst) {
-        qDebug() << "capture piece" << pDst->type() << pDst->position() << pDst->color();
         dstIndex = indexOfPiece(pDst);
         pDst->setInGame(false);
         QModelIndex idx = createIndex(dstIndex, 0);
@@ -311,17 +290,6 @@ void PiecesModel::importGame(const QUrl &filename)
     emit historyChanged();
     emit logSizeChanged();
     emit gameLoaded();
-//    QJsonArray pcs = v_pcs.toArray();
-//    for (QJsonValue v : pcs) {
-//        QJsonObject p = v.toObject();
-//        if (!p.contains("position") || !p.contains("inGame") || !p.contains("color") || !p.contains("type")) {
-//            qWarning() << Q_FUNC_INFO << file << "contains corrupted Chess JSON";
-//            return;
-//        }
-//        QString pos = o["position"].toString();
-//    }
-
-
 }
 
 void PiecesModel::toNextMove()
@@ -498,8 +466,6 @@ bool PiecesModel::iterator::move(Piece::MoveFlags dir, Piece::Color color)
     int p = qPopulationCount(dirIdx);
     if (p > 2)
         return false;
-
-//    qDebug() << "Dir:" << printableFlags((Piece::MoveFlags)dirIdx) << printableFlags(dir) << "index" << i << "pos" << indexToPos(i);
     int ni = i;
     int dx = 0;
     int dy = 0;
@@ -537,10 +503,7 @@ bool PiecesModel::iterator::move(Piece::MoveFlags dir, Piece::Color color)
         return false;
     if (qBound(0, ny, 7) != ny)
         return false;
-//    qDebug() << "x:" << column() << "new x:" << nx;
-//    qDebug() << "y:" << row() << "new y:" << ny;
     i = coordsToIndex(nx, ny);
-//    qDebug() << "New index" << i;
     if (dir & Piece::TwoSquares) {
         dir &= ~Piece::TwoSquares;
         dir |= Piece::OneSquare;

@@ -7,16 +7,18 @@ import QtQuick.Controls.Styles 1.2
 Item {
     property alias model: view.model
     property alias log: view
-//    color: "#888"
+
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
+
         Rectangle {
             id: header
             Layout.fillWidth: true
             height: 22
             color: "#347"
             radius: 2
+
             Text {
                 text: "Move history"
                 anchors.centerIn: parent
@@ -29,7 +31,9 @@ Item {
         ScrollView {
             Layout.fillHeight: true
             Layout.fillWidth: true
+
             style: ScrollViewStyle {
+
                 handle: Rectangle {
                     color: "#e0000e27"
                     radius: 4
@@ -65,10 +69,9 @@ Item {
                         }
                     }
                 }
+
                 highlight: Rectangle {
                     color: "#40005cac"
-//                    anchors.left: parent.left
-//                    anchors.right: parent.right
                     width: view.width
                     height: 26
                     radius: 3
@@ -76,8 +79,5 @@ Item {
             }
         }
     }
-
-
-
 }
 

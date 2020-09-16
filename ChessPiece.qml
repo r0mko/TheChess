@@ -5,13 +5,13 @@ Item {
     id: root
     property int index: boardIndex
 
-
     Behavior on x {
         NumberAnimation {
             easing.type: Easing.InOutCubic
             duration: 300
         }
     }
+
     Behavior on y {
         NumberAnimation {
             easing.type: Easing.InOutCubic
@@ -21,13 +21,9 @@ Item {
 
     Image {
         id: img
-//        visible: false
         anchors.fill: parent
         sourceSize: Qt.size(parent.width, parent.height)
         source: "qrc:/Pieces/" + iconSrc + ".svg"
-        Component.onCompleted: {
-//            console.log("source", source, "status", model.status, Piece.InGame, "turn", boardModel.turn, Piece.White, root.state)
-        }
         opacity: marea.enabled ? 1.0 : 0.5
 
     }
@@ -56,9 +52,6 @@ Item {
                 root.x = column * width
                 root.y = row * height
             }
-        }
-        onPressed: {
-            console.log("pressed:", model.piece, model.inGame, boardIndex, position)
         }
     }
 
@@ -126,6 +119,7 @@ Item {
             }
         }
     ]
+
     transitions: Transition {
         ParentAnimation {
             NumberAnimation { properties: "x,y,rotation,width,heigth"; duration: 300; easing.type: Easing.OutCubic }

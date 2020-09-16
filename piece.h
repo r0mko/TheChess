@@ -4,55 +4,7 @@
 #include <QObject>
 #include <QMetaEnum>
 #include <QSharedData>
-//#include <cxxabi.h>
 #include <QDebug>
-
-#define PRINTABLE_ENUM(CLASS, ENUM)                                            \
-    template <>                                                                    \
-    QByteArray printableEnum< ## CLASS :: ## ENUM>(const CLASS::ENUM &enumType) {  \
-    int eid = CLASS::staticMetaObject.indexOfEnumerator(#ENUM);                \
-    QMetaEnum e = CLASS::staticMetaObject.enumerator(eid);                     \
-    return QByteArray(e.valueToKey(enumType));                                 \
-    }
-
-class MyClass
-{
-    int m_a = 0;
-    int m_b = 0;
-public:
-    MyClass() = default;
-    MyClass(int a, int b) :
-        m_a(a),
-        m_b(b)
-    {}
-    void setA(int a) { m_a = a; }
-    void setB(int b) { m_b = b; }
-    int a() const { return m_a; }
-    int b() const { return m_b; }
-};
-
-template <class T>
-QByteArray printableFlags(const QFlags<T> &flags)
-{
-    //    QMetaEnum f = QMetaEnum::fromType<QFlags<T>>();
-    //    return f.valueToKeys(flags.operator int()).constData();
-    //    QByteArray tn(typeid(flags).name());
-
-    int r;
-//    qDebug() << abi::__cxa_demangle(typeid(flags).name(), 0, 0, &r);
-    return QVariant::fromValue<QFlags<T>>(flags).toString().toLocal8Bit();
-}
-template <class T>
-QByteArray printableEnum(const T &enumType)
-{
-    //    QMetaEnum f = QMetaEnum::fromType<T>();
-    //    return f.valueToKey(enumType);
-    int r;
-//    qDebug() << abi::__cxa_demangle(typeid(enumType).name(), 0, 0, &r);
-    return QVariant::fromValue<T>(enumType).toString().toLocal8Bit();
-}
-
-
 
 QByteArray indexToPos(int index);
 int positionToIndex(QByteArray pos);
@@ -60,7 +12,6 @@ QPair<int, int> positionToCoords(const QByteArray &pos);
 inline int coordsToIndex(int column, int row) { return (row << 3) + column; }
 
 class BoardModel;
-
 
 class Piece : public QObject
 {

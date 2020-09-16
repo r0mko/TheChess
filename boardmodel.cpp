@@ -6,7 +6,6 @@ BoardModel::BoardModel(QObject *parent) :
     QAbstractListModel(parent),
     m_pieces(new PiecesModel(this))
 {
-
 }
 
 void BoardModel::initFromFEN(QByteArray fen)
@@ -141,15 +140,12 @@ void BoardModel::setActivePiece(int index)
 void BoardModel::toggleTurn()
 {
     m_turn ^= (Piece::Black ^ Piece::White);
-    qDebug() << Q_FUNC_INFO << "turn" << m_turn;
     emit turnChanged();
 }
 
 void BoardModel::addPiece(QByteArray p)
 {
-    qDebug() << "Adding piece" << p;
     m_pieces->addPiece(p);
-
 }
 
 int BoardModel::rowCount(const QModelIndex &parent) const

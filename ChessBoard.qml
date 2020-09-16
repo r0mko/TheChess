@@ -15,25 +15,47 @@ Item {
     property bool flip: false
     property bool interactive: false
 
+    Keys.onSpacePressed: flip ^= true
+
+    states: [
+        State {
+            name: "whiteSide"
+            when: flip === false
+
+            PropertyChanges {
+                target: c_brd
+                rotation: 0
+            }
+
+        },
+        State {
+            name: "blackSide"
+            when: flip === true
+
+            PropertyChanges {
+                target: c_brd
+                rotation: 180
+            }
+        }
+    ]
+
     Image {
         id: bg
         anchors.fill: parent
         source: "qrc:/low_contrast_linen.png"
         fillMode: Image.Tile
     }
-    Keys.onSpacePressed: flip ^= true
 
     Item {
         id: c_brd
-        //        clip: true
+
         Behavior on rotation {
             id: rotBehavior
             NumberAnimation {
-                easing.type: Easing.OutQuint
-                duration: 300
+                easing.type: Easing.OutCubic
+                duration: 500
             }
         }
-        //        visible: false
         anchors.fill: parent
 
         Colorize {
@@ -46,27 +68,19 @@ Item {
             visible: false
         }
 
-
         Item {
             id: board
             anchors.centerIn: parent
             width: cells.implicitWidth + 2
             height: cells.implicitWidth + 2
-            //            border.width: 1
-
 
             Image {
-                //                z: -1
                 id: board_bk
                 anchors.fill: parent
                 source: "qrc:/wood.png"
                 fillMode: Image.PreserveAspectFit
                 anchors.margins: -cellsize
-
-
-                //                onWidthChanged: console.log(width, height, implicitWidth, implicitHeight, c_brd.width, c_brd.height)
             }
-
 
             Grid {
                 id: cells
@@ -78,7 +92,6 @@ Item {
 
                 Repeater {
                     model: root.model
-                    //                    visible: false
                     delegate: FieldSquare {
                         width: cellsize
                         height: cellsize
@@ -93,14 +106,13 @@ Item {
                     }
                 }
             }
-
         }
+
         OpacityMask {
             id: topmost
             anchors.fill: board
             maskSource: cells
             source: darker_cells
-            //            visible: false
         }
 
         Column {
@@ -118,12 +130,12 @@ Item {
                 }
             }
         }
+
         Column {
             anchors.left: board.right
             anchors.top: board.top
             anchors.bottom: board.bottom
             anchors.leftMargin: cellsize/5
-
 
             Repeater {
                 model: 8
@@ -134,11 +146,11 @@ Item {
                 }
             }
         }
+
         Row {
             anchors.right: board.right
             anchors.left: board.left
             anchors.top: board.bottom
-            //        anchors.bottomMargin: cellsize/5
 
             Repeater {
                 model: 8
@@ -148,13 +160,12 @@ Item {
                     opposite: false
                 }
             }
-
         }
+
         Row {
             anchors.right: board.right
             anchors.bottom: board.top
             anchors.left: board.left
-            //        anchors.bottomMargin: cellsize/5
 
             Repeater {
                 model: 8
@@ -164,46 +175,14 @@ Item {
                     opposite: true
                 }
             }
-
         }
-
     }
 
-    states: [
-        State {
-            name: "whiteSide"
-            when: flip === false
-            PropertyChanges {
-                target: c_brd
-                rotation: 0
-            }
-
-        },
-        State {
-            name: "blackSide"
-            when: flip === true
-            PropertyChanges {
-                target: c_brd
-                rotation: 180
-            }
-        }
-    ]
-
-
     DropShadow {
-        //        id: topmost
         anchors.fill: root
         source: c_brd
         rotation: c_brd.rotation
         radius: 30
         samples: 32
-        //        verticalOffset: 10;
     }
-
-
-
-
 }
-
-
-

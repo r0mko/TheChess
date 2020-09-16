@@ -37,10 +37,6 @@ Piece::Piece(Piece::PieceType type, Piece::Color color, int index, BoardModel *b
     default:
         break;
     }
-    qDebug() << printableEnum(d->type) << printableEnum(color);
-//    for (int mf : d->capabilities) {
-//        qDebug() << "  moves:" << printableFlags((MoveFlags)mf);
-//    }
 }
 
 void Piece::setMoves(QByteArray moves)

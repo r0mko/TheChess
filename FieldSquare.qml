@@ -6,7 +6,9 @@ Rectangle {
     color: isDark ? whiteColor : blackColor
     border.color: hl.color
     border.width: droparea.containsDrag ? 2 : 0
+
     signal pieceDropped(int source, int destination)
+
     Rectangle {
         id: hl
         anchors.fill: parent
@@ -16,9 +18,9 @@ Rectangle {
         radius: width / 2
         visible: move || capture
     }
+
     DropArea {
         id: droparea
-
         enabled: move || capture
         anchors.fill: parent
         onDropped: pieceDropped(drop.source.index, boardIndex)

@@ -26,8 +26,6 @@ ApplicationWindow {
         }
     }
 
-
-
     SplitView {
         id: main
         handleDelegate: Rectangle {
@@ -112,13 +110,11 @@ ApplicationWindow {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
             anchors.leftMargin: -sidebar.width
-//            anchors.fill: parent
             spacing: 0
             PlayerPanel {
                 id: blackPanel
                 color: "#555"
                 Layout.fillWidth: true
-    //            Layout.leftMargin: sidebar.width
             }
             ChessBoard {
                 id: checkerboard
@@ -129,6 +125,7 @@ ApplicationWindow {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 focus: true
+
                 Instantiator {
                     model: boardModel.pieces
                     delegate: ChessPiece {
@@ -138,13 +135,14 @@ ApplicationWindow {
                 }
 
             }
+
             PlayerPanel {
                 id: whitePanel
                 color: "#ddd"
                 Layout.fillWidth: true
-    //            Layout.leftMargin: sidebar.width
             }
         }
+
         Image {
             id: sidebar
             Layout.fillHeight: true
@@ -164,6 +162,7 @@ ApplicationWindow {
                 anchors.margins: 8
                 border.color: "#80000000"
                 border.width: 1
+
                 Item {
                     id: lcd_text
                     anchors.fill: parent
@@ -171,7 +170,6 @@ ApplicationWindow {
                         id: t_lay
                         anchors.margins: 8
                         anchors.fill: parent
-
 
                         Text {
                             id: whiteClock
@@ -206,8 +204,6 @@ ApplicationWindow {
                             property Action saveGameAction: exportGame
                             property Action quitGameAction: quitGame
                         }
-
-
                     }
                 }
 
@@ -219,7 +215,6 @@ ApplicationWindow {
                     verticalOffset: 5
                     color: "#80000000"
                 }
-
             }
 
             InnerShadow {
@@ -236,6 +231,8 @@ ApplicationWindow {
     FileDialog {
         id: filePicker
         nameFilters: ["Chess JSON files (*.cjson)"]
+        property var func
+
         function run(callback) {
             if (typeof callback !== "function") {
                 console.warn("callback must be a function!", callback, typeof callback)
@@ -244,7 +241,7 @@ ApplicationWindow {
             func = callback
             open()
         }
-        property var func
+
         onAccepted: {
             if (selectMultiple)
                 func(fileUrls)
@@ -261,6 +258,7 @@ ApplicationWindow {
         onTriggered:  main.state = "game"
 
     }
+
     Action {
         id: exportGame
         text: qsTr("Save game")
@@ -288,7 +286,6 @@ ApplicationWindow {
         }
     }
 
-
     Action {
         id: nextMoveAction
         text: qsTr("Next ▶")
@@ -311,6 +308,7 @@ ApplicationWindow {
         id: registerfont
         source: "qrc:/register.ttf"
     }
+
     FontLoader {
         id: lcdfont
         source: "qrc:/digital7mi.ttf"
